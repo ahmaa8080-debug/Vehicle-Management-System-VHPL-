@@ -434,6 +434,17 @@ function renderAll() {
   renderUsersTable();
 }
 
+const panelTitles = {
+  dashboardPanel: "Dashboard",
+  fleetPanel: "Fleet Table",
+  repairPanel: "Repair Logs",
+  locationsPanel: "Locations",
+  setupPanel: "Setup",
+  reportsPanel: "Reports",
+  compliancePanel: "Compliance",
+  settingsPanel: "Admin Control"
+};
+
 function switchPanel(panelId) {
   el.panels.forEach((panel) => {
     panel.classList.toggle("is-active", panel.id === panelId);
@@ -443,6 +454,11 @@ function switchPanel(panelId) {
   navButtons.forEach((btn) => {
     btn.classList.toggle("active", btn.getAttribute("data-panel") === panelId);
   });
+
+  const titleEl = document.querySelector(".topbar-copy h1");
+  if (titleEl && panelTitles[panelId]) {
+    titleEl.textContent = panelTitles[panelId];
+  }
 }
 
 function addVehicle(formData) {
