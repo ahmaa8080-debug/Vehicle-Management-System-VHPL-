@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vehicle Management System (VHPL)</title>
+  <title>VHPL Vehicle Management System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/tabler-icons@latest/iconfont/tabler-icons.min.css" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -15,10 +15,12 @@
 
   <section id="authView" class="auth-view">
     <div class="auth-card">
-      <div>
-        <p class="badge">VHPL</p>
-        <h1>Vehicle Management System</h1>
-        <p class="sub">Secure fleet operations dashboard for vehicle status and location control.</p>
+      <div class="auth-brand">
+        <div class="logo-badge">VHPL</div>
+        <div>
+          <h1>VHPL Vehicle Portal</h1>
+          <p class="sub">Secure fleet operations for Villa Hakatha Pvt Ltd.</p>
+        </div>
       </div>
       <form id="loginForm" class="auth-form">
         <div class="field">
@@ -36,270 +38,362 @@
   </section>
 
   <main id="appView" class="app-view" hidden>
-    <div class="app-header">
-      <div class="app-brand">
-        <p class="badge app-badge">VHPL</p>
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="logo-badge">VHPL</div>
+        <div class="brand-copy">
+          <h2>Villa Hakatha</h2>
+          <p>Fleet Operations</p>
+        </div>
+      </div>
+
+      <nav id="sidebarNav" class="nav-list" aria-label="Main navigation">
+        <button class="nav-btn active" type="button" data-panel="dashboardPanel">
+          <i class="ti ti-layout-dashboard"></i>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-btn" type="button" data-panel="fleetPanel">
+          <i class="ti ti-list-details"></i>
+          <span>Fleet Table</span>
+        </button>
+        <button class="nav-btn" type="button" data-panel="repairPanel">
+          <i class="ti ti-tools"></i>
+          <span>Repair Logs</span>
+        </button>
+        <button class="nav-btn" type="button" data-panel="locationsPanel">
+          <i class="ti ti-building-cottage"></i>
+          <span>Locations</span>
+        </button>
+        <button class="nav-btn" type="button" data-panel="setupPanel">
+          <i class="ti ti-settings"></i>
+          <span>Setup</span>
+        </button>
+        <button class="nav-btn" type="button" data-panel="reportsPanel">
+          <i class="ti ti-report"></i>
+          <span>Reports</span>
+        </button>
+        <button class="nav-btn" type="button" data-panel="compliancePanel">
+          <i class="ti ti-shield-check"></i>
+          <span>Compliance</span>
+        </button>
+      </nav>
+
+      <div class="profile-card">
         <div>
-          <h1>Vehicle Management</h1>
-          <p class="sub">A polished fleet operations dashboard for fleet & repair teams.</p>
+          <p class="profile-name">Alex Morgan</p>
+          <p class="profile-role">Operations Lead</p>
         </div>
       </div>
-      <div class="header-actions">
-        <button id="exportExcelBtn" class="btn btn-primary" type="button">Export</button>
-        <button id="logoutBtn" class="btn btn-ghost" type="button">Logout</button>
-      </div>
-    </div>
-    <div class="layout">
-      <aside class="sidebar">
-        <div class="sidebar-brand">
-          <p class="badge">VHPL OPERATIONS</p>
-          <h2>Vehicle Management System</h2>
+    </aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-copy">
+          <span class="eyebrow">VHPL Command Center</span>
+          <h1>Dashboard</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-btn" id="notificationsBtn" type="button" aria-label="Notifications">
+            <i class="ti ti-bell"></i>
+          </button>
+          <button class="btn btn-secondary" id="exportExcelBtn" type="button">
+            <i class="ti ti-file-export"></i>
+            <span>Export</span>
+          </button>
+          <button class="btn btn-primary" id="addVehicleBtn" type="button">
+            <i class="ti ti-plus"></i>
+            <span>Add Vehicle</span>
+          </button>
+        </div>
+      </header>
+
+      <section id="dashboardPanel" class="panel is-active">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Fleet Overview</h2>
+            <p class="panel-copy">Monitor vehicle health and location performance across Villa Hakatha sites.</p>
+          </div>
         </div>
 
-        <nav id="sidebarNav" class="nav-list" aria-label="Main navigation">
-          <button class="nav-btn active" type="button" data-panel="dashboardPanel">Dashboard</button>
-          <button class="nav-btn" type="button" data-panel="setupPanel">Setup</button>
-          <button class="nav-btn" type="button" data-panel="repairPanel">Repair</button>
-          <button class="nav-btn" type="button" data-panel="fleetPanel">Fleet Table</button>
-          <button class="nav-btn" type="button" data-panel="settingsPanel">Settings</button>
-        </nav>
-      </aside>
+        <div id="kpiGrid" class="kpi-grid"></div>
 
-      <section class="panel-area">
-        <section id="dashboardPanel" class="panel is-active">
-          <div class="panel-head split">
-            <div>
-              <h3>Dashboard by Location</h3>
-              <p>Real-time status overview for each project location.</p>
-            </div>
+        <div class="section-header">
+          <h3>Locations</h3>
+          <p>Review site status, vehicle counts and incident trends.</p>
+        </div>
+        <div id="dashboard" class="location-grid"></div>
+      </section>
+
+      <section id="fleetPanel" class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Fleet Table</h2>
+            <p class="panel-copy">Manage the active fleet with quick status and action access.</p>
           </div>
-          <div id="kpiGrid" class="kpi-grid"></div>
-          <div id="dashboard" class="dashboard-grid"></div>
-        </section>
+        </div>
 
-        <section id="setupPanel" class="panel">
-          <div class="panel-head">
-            <h3>Setup: Vehicle and Location</h3>
-            <p>Add vehicles and locations from one control panel.</p>
+        <div class="table-wrap">
+          <table class="fleet-table">
+            <thead>
+              <tr>
+                <th>Vehicle ID</th>
+                <th>Vehicle Name</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="vehiclesTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="repairPanel" class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Repair Logs</h2>
+            <p class="panel-copy">Track service requests, downtime and repair progress.</p>
           </div>
+        </div>
 
-          <div class="split-cards">
-            <div class="sub-panel">
-              <h4>Add New Vehicle</h4>
-              <p>Create a new vehicle record with location and status.</p>
-          <form id="vehicleForm" class="form-grid">
-            <div class="field">
-              <label for="vehicleCode">Vehicle Code</label>
-              <input id="vehicleCode" name="vehicleCode" type="text" placeholder="VH-100" required />
-            </div>
-            <div class="field field-wide">
-              <label for="vehicleName">Vehicle Name</label>
-              <input id="vehicleName" name="vehicleName" type="text" placeholder="Ashok Leyland Mixer" required />
-            </div>
-            <div class="field">
-              <label for="vehicleType">Vehicle Type</label>
-              <input id="vehicleType" name="vehicleType" type="text" placeholder="Concrete Mixer" required />
-            </div>
-            <div class="field">
-              <label for="vehicleLocation">Location</label>
-              <select id="vehicleLocation" name="vehicleLocation" required></select>
-            </div>
-            <div class="field">
-              <label for="vehicleStatus">Status</label>
-              <select id="vehicleStatus" name="vehicleStatus" required>
-                <option value="Active">Active</option>
-                <option value="Breakdown">Breakdown</option>
-                <option value="Mechanical Issue">Mechanical Issue</option>
-              </select>
-            </div>
-            <div class="field field-full">
-              <label for="vehicleRemarks">Remarks</label>
-              <textarea id="vehicleRemarks" name="vehicleRemarks" rows="3" placeholder="Optional notes"></textarea>
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" type="submit">Add Vehicle</button>
-              <button class="btn btn-muted" type="reset">Clear</button>
-            </div>
-          </form>
-            </div>
-
-            <div class="sub-panel">
-              <h4>Add New Location</h4>
-              <p>Add custom locations where vehicles can be assigned.</p>
-          <form id="locationForm" class="location-form">
-            <div class="field">
-              <label for="newLocation">Location Name</label>
-              <input id="newLocation" name="newLocation" type="text" placeholder="Enter location" required />
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" type="submit">Add Location</button>
-            </div>
-          </form>
-          <ul id="locationList" class="chip-list"></ul>
-            </div>
+        <form id="repairForm" class="form-grid">
+          <div class="field">
+            <label for="repairVehicleId">Vehicle</label>
+            <select id="repairVehicleId" name="repairVehicleId" required></select>
           </div>
-        </section>
-
-        <section id="repairPanel" class="panel">
-          <div class="panel-head">
-            <h3>Repair and Downtime</h3>
-            <p>Track service activity, downtime periods, and repair status for each vehicle.</p>
+          <div class="field">
+            <label for="serviceType">Service Type</label>
+            <input id="serviceType" name="serviceType" type="text" placeholder="Engine service, brake maintenance" required />
           </div>
-
-          <form id="repairForm" class="repair-grid">
-            <div class="field">
-              <label for="repairVehicleId">Vehicle</label>
-              <select id="repairVehicleId" name="repairVehicleId" required></select>
-            </div>
-            <div class="field">
-              <label for="serviceType">Service Type</label>
-              <input id="serviceType" name="serviceType" type="text" placeholder="Engine service, brake maintenance" required />
-            </div>
-            <div class="field">
-              <label for="downtimeStart">Downtime Start</label>
-              <input id="downtimeStart" name="downtimeStart" type="datetime-local" required />
-            </div>
-            <div class="field">
-              <label for="downtimeEnd">Downtime End</label>
-              <input id="downtimeEnd" name="downtimeEnd" type="datetime-local" />
-            </div>
-            <div class="field">
-              <label for="repairStatus">Repair Status</label>
-              <select id="repairStatus" name="repairStatus" required>
-                <option value="Pending">Pending</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
-              </select>
-            </div>
-            <div class="field field-wide">
-              <label for="repairNotes">Repair Notes</label>
-              <input id="repairNotes" name="repairNotes" type="text" placeholder="Parts ordered, external technician called" />
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" type="submit">Add Repair Log</button>
-            </div>
-          </form>
-
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Vehicle</th>
-                  <th>Service</th>
-                  <th>Start</th>
-                  <th>End</th>
-                  <th>Downtime (hrs)</th>
-                  <th>Status</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody id="repairTableBody"></tbody>
-            </table>
+          <div class="field">
+            <label for="downtimeStart">Downtime Start</label>
+            <input id="downtimeStart" name="downtimeStart" type="datetime-local" required />
           </div>
-        </section>
-
-        <section id="fleetPanel" class="panel">
-          <div class="panel-head">
-            <h3>Fleet Table</h3>
-            <p>Update location and status instantly. Dashboard updates immediately.</p>
+          <div class="field">
+            <label for="downtimeEnd">Downtime End</label>
+            <input id="downtimeEnd" name="downtimeEnd" type="datetime-local" />
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Location</th>
-                  <th>Status</th>
-                  <th>Remarks</th>
-                </tr>
-              </thead>
-              <tbody id="vehiclesTableBody"></tbody>
-            </table>
+          <div class="field">
+            <label for="repairStatus">Repair Status</label>
+            <select id="repairStatus" name="repairStatus" required>
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
           </div>
-        </section>
-
-        <section id="settingsPanel" class="panel">
-          <div class="panel-head">
-            <h3>Admin Control Panel</h3>
-            <p>Manage application settings and user authentication controls.</p>
+          <div class="field field-wide">
+            <label for="repairNotes">Repair Notes</label>
+            <input id="repairNotes" name="repairNotes" type="text" placeholder="Parts ordered, external technician called" />
           </div>
-          <form id="settingsForm" class="settings-grid">
-            <div class="field">
-              <label for="displayName">Display Name</label>
-              <input id="displayName" name="displayName" type="text" placeholder="Operations Admin" required />
-            </div>
-            <div class="field">
-              <label for="defaultPanel">Default Start Panel</label>
-              <select id="defaultPanel" name="defaultPanel">
-                <option value="dashboardPanel">Dashboard</option>
-                <option value="setupPanel">Setup</option>
-                <option value="repairPanel">Repair</option>
-                <option value="fleetPanel">Fleet Table</option>
-                <option value="settingsPanel">Settings</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="refreshSeconds">Auto Refresh Interval (seconds)</label>
-              <input id="refreshSeconds" name="refreshSeconds" type="number" min="3" max="60" step="1" required />
-            </div>
-            <div class="field">
-              <label for="accentColor">Accent Color</label>
-              <input id="accentColor" name="accentColor" type="color" />
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" type="submit">Save Settings</button>
-            </div>
-          </form>
+          <div class="actions">
+            <button class="btn btn-primary" type="submit">Add Repair Log</button>
+          </div>
+        </form>
 
-          <div class="sub-panel auth-admin-panel">
-            <h4>User Authentication Management</h4>
-            <p>Create and maintain user accounts for login access.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Vehicle</th>
+                <th>Service</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Downtime (hrs)</th>
+                <th>Status</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="repairTableBody"></tbody>
+          </table>
+        </div>
+      </section>
 
-            <form id="userForm" class="auth-user-grid">
+      <section id="locationsPanel" class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Locations</h2>
+            <p class="panel-copy">Explore all active sites and vehicle distribution.</p>
+          </div>
+        </div>
+        <div class="locations-summary">
+          <span>Thilafushi</span>
+          <span>Maxx Royal</span>
+          <span>Hulhumale</span>
+          <span>Maamigili</span>
+          <span>Holiday Island</span>
+          <span>Sun Island</span>
+          <span>Fun Island</span>
+        </div>
+      </section>
+
+      <section id="reportsPanel" class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Reports</h2>
+            <p class="panel-copy">Export fleet performance snapshots in a few clicks.</p>
+          </div>
+        </div>
+        <div class="placeholder">Reports and analytics workflows are available from the fleet export controls.</div>
+      </section>
+
+      <section id="compliancePanel" class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Compliance</h2>
+            <p class="panel-copy">View documentation and audit-ready compliance details.</p>
+          </div>
+        </div>
+        <div class="placeholder">Compliance governance panels will be available here.</div>
+      </section>
+
+      <section id="setupPanel" class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Setup</h2>
+            <p class="panel-copy">Add new vehicles, locations and fleet controls.</p>
+          </div>
+        </div>
+
+        <div class="split-cards">
+          <div class="sub-panel">
+            <h4>Add New Vehicle</h4>
+            <p class="panel-copy">Create a new vehicle record with location and status.</p>
+            <form id="vehicleForm" class="form-grid">
               <div class="field">
-                <label for="newUsername">Username</label>
-                <input id="newUsername" name="newUsername" type="text" placeholder="new.user" required />
+                <label for="vehicleCode">Vehicle Code</label>
+                <input id="vehicleCode" name="vehicleCode" type="text" placeholder="VH-100" required />
+              </div>
+              <div class="field field-wide">
+                <label for="vehicleName">Vehicle Name</label>
+                <input id="vehicleName" name="vehicleName" type="text" placeholder="Ashok Leyland Mixer" required />
               </div>
               <div class="field">
-                <label for="newPassword">Password</label>
-                <input id="newPassword" name="newPassword" type="password" placeholder="Strong password" required />
+                <label for="vehicleType">Vehicle Type</label>
+                <input id="vehicleType" name="vehicleType" type="text" placeholder="Concrete Mixer" required />
               </div>
               <div class="field">
-                <label for="userRole">Role</label>
-                <select id="userRole" name="userRole">
-                  <option value="Admin">Admin</option>
-                  <option value="Operator">Operator</option>
-                  <option value="Viewer">Viewer</option>
+                <label for="vehicleLocation">Location</label>
+                <select id="vehicleLocation" name="vehicleLocation" required></select>
+              </div>
+              <div class="field">
+                <label for="vehicleStatus">Status</label>
+                <select id="vehicleStatus" name="vehicleStatus" required>
+                  <option value="Active">Active</option>
+                  <option value="Breakdown">Breakdown</option>
+                  <option value="Mechanical Issue">Mechanical Issue</option>
                 </select>
               </div>
+              <div class="field field-full">
+                <label for="vehicleRemarks">Remarks</label>
+                <textarea id="vehicleRemarks" name="vehicleRemarks" rows="3" placeholder="Optional notes"></textarea>
+              </div>
               <div class="actions">
-                <button class="btn btn-primary" type="submit">Add User</button>
+                <button class="btn btn-primary" type="submit">Add Vehicle</button>
               </div>
             </form>
-
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="usersTableBody"></tbody>
-              </table>
-            </div>
           </div>
-        </section>
+
+          <div class="sub-panel">
+            <h4>Add New Location</h4>
+            <p class="panel-copy">Add custom sites where vehicles can be assigned.</p>
+            <form id="locationForm" class="location-form">
+              <div class="field">
+                <label for="newLocation">Location Name</label>
+                <input id="newLocation" name="newLocation" type="text" placeholder="Enter location" required />
+              </div>
+              <div class="actions">
+                <button class="btn btn-primary" type="submit">Add Location</button>
+              </div>
+            </form>
+            <ul id="locationList" class="chip-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="settingsPanel" class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Admin Control</h2>
+            <p class="panel-copy">Manage app settings and user access controls.</p>
+          </div>
+        </div>
+
+        <form id="settingsForm" class="settings-grid">
+          <div class="field">
+            <label for="displayName">Display Name</label>
+            <input id="displayName" name="displayName" type="text" placeholder="Operations Admin" required />
+          </div>
+          <div class="field">
+            <label for="defaultPanel">Default Start Panel</label>
+            <select id="defaultPanel" name="defaultPanel">
+              <option value="dashboardPanel">Dashboard</option>
+              <option value="setupPanel">Setup</option>
+              <option value="repairPanel">Repair</option>
+              <option value="fleetPanel">Fleet Table</option>
+              <option value="settingsPanel">Settings</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="refreshSeconds">Auto Refresh Interval (seconds)</label>
+            <input id="refreshSeconds" name="refreshSeconds" type="number" min="3" max="60" step="1" required />
+          </div>
+          <div class="field">
+            <label for="accentColor">Accent Color</label>
+            <input id="accentColor" name="accentColor" type="color" />
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" type="submit">Save Settings</button>
+          </div>
+        </form>
+
+        <div class="sub-panel auth-admin-panel">
+          <h4>User Authentication Management</h4>
+          <p class="panel-copy">Create and maintain user accounts for login access.</p>
+
+          <form id="userForm" class="auth-user-grid">
+            <div class="field">
+              <label for="newUsername">Username</label>
+              <input id="newUsername" name="newUsername" type="text" placeholder="new.user" required />
+            </div>
+            <div class="field">
+              <label for="newPassword">Password</label>
+              <input id="newPassword" name="newPassword" type="password" placeholder="Strong password" required />
+            </div>
+            <div class="field">
+              <label for="userRole">Role</label>
+              <select id="userRole" name="userRole">
+                <option value="Admin">Admin</option>
+                <option value="Operator">Operator</option>
+                <option value="Viewer">Viewer</option>
+              </select>
+            </div>
+            <div class="actions">
+              <button class="btn btn-primary" type="submit">Add User</button>
+            </div>
+          </form>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
       </section>
     </div>
   </main>
 
   <div id="toast" class="toast" aria-live="polite"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

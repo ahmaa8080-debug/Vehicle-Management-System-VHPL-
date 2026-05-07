@@ -92,6 +92,8 @@ const el = {
   accentColor: document.getElementById("accentColor"),
   userForm: document.getElementById("userForm"),
   usersTableBody: document.getElementById("usersTableBody"),
+  notificationsBtn: document.getElementById("notificationsBtn"),
+  addVehicleBtn: document.getElementById("addVehicleBtn"),
   toast: document.getElementById("toast")
 };
 
@@ -744,6 +746,18 @@ function attachEvents() {
     }
     switchPanel(button.getAttribute("data-panel"));
   });
+
+  if (el.notificationsBtn) {
+    el.notificationsBtn.addEventListener("click", () => {
+      showToast("No new notifications.");
+    });
+  }
+
+  if (el.addVehicleBtn) {
+    el.addVehicleBtn.addEventListener("click", () => {
+      switchPanel("setupPanel");
+    });
+  }
 
   el.vehicleForm.addEventListener("submit", (event) => {
     event.preventDefault();
