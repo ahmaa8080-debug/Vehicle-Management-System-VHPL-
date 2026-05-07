@@ -58,7 +58,7 @@ const defaultSettings = {
   displayName: "Operations Admin",
   defaultPanel: "dashboardPanel",
   refreshSeconds: 5,
-  accentColor: "#0b5db8"
+  accentColor: "#f17400"
 };
 
 const state = loadState();

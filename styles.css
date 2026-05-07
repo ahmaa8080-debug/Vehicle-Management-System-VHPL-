@@ -1,15 +1,15 @@
 :root {
-  --bg: #eff3f7;
+  --bg: #fff7ef;
   --surface: #ffffff;
-  --text: #182231;
-  --muted: #637186;
-  --line: #d7e0ea;
-  --brand: #0b5db8;
-  --brand-dark: #0a4688;
+  --text: #2f1e0e;
+  --muted: #7d5e45;
+  --line: #f1d8c2;
+  --brand: #f17400;
+  --brand-dark: #c35e00;
   --ok: #1b8d5f;
   --warn: #be7a1a;
   --danger: #c64747;
-  --shadow: 0 10px 28px rgba(15, 33, 56, 0.1);
+  --shadow: 0 10px 28px rgba(140, 60, 12, 0.12);
 }
 
 * {
@@ -32,9 +32,9 @@ body {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at 10% 6%, rgba(11, 93, 184, 0.2), transparent 28%),
-    radial-gradient(circle at 90% 10%, rgba(46, 196, 182, 0.16), transparent 30%),
-    linear-gradient(180deg, #edf2f8 0%, #f7faff 55%, #eef3f8 100%);
+    radial-gradient(circle at 10% 6%, rgba(241, 116, 0, 0.18), transparent 28%),
+    radial-gradient(circle at 90% 10%, rgba(243, 134, 38, 0.14), transparent 30%),
+    linear-gradient(180deg, #fff3ea 0%, #fff9f3 55%, #fff2e8 100%);
 }
 
 .auth-view {
