@@ -94,7 +94,9 @@ const el = {
   usersTableBody: document.getElementById("usersTableBody"),
   notificationsBtn: document.getElementById("notificationsBtn"),
   addVehicleBtn: document.getElementById("addVehicleBtn"),
-  toast: document.getElementById("toast")
+  toast: document.getElementById("toast"),
+  profileName: document.getElementById("profileName"),
+  profileRole: document.getElementById("profileRole")
 };
 
 function loadState() {
@@ -712,6 +714,11 @@ function showAuthView() {
 function showAppView() {
   el.authView.hidden = true;
   el.appView.hidden = false;
+  const session = getSession();
+  if (session) {
+    el.profileName.textContent = session.userName === "admin" ? "Ahmed Ali" : session.userName;
+    el.profileRole.textContent = session.role === "Admin" ? "Operations Manager" : session.role;
+  }
 }
 
 function initializeAuth() {
