@@ -733,11 +733,13 @@ function attachEvents() {
     el.loginForm.reset();
   });
 
-  el.logoutBtn.addEventListener("click", () => {
-    clearSession();
-    showAuthView();
-    showToast("Logged out.");
-  });
+  if (el.logoutBtn) {
+    el.logoutBtn.addEventListener("click", () => {
+      clearSession();
+      showAuthView();
+      showToast("Logged out.");
+    });
+  }
 
   el.sidebarNav.addEventListener("click", (event) => {
     const button = event.target.closest(".nav-btn");
